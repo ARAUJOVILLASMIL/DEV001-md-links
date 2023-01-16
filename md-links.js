@@ -1,31 +1,31 @@
-const fs = require ("fs");
+/* const fs = require ("fs");
 const path = require ("path");
 
 //VERIFICAR SI EXISTE RUTA//
 const existeruta = fs.existsSync ("./saludos.txt");
-console.log("./saludos.txt",existeruta);
+//console.log("./saludos.txt",existeruta);
 
 //PRUEBA DE QUE EXISTE RUTA 2 
 const existeruta2 = fs.existsSync ("./adriana.md");
-console.log("./adriana.md",existeruta2)
+//console.log("./adriana.md",existeruta2)
 
 //VERIFICAR SI LA RUTA ES ABSOLUTA 
 const rutaabsoluta = path.isAbsolute("./saludos.txt");
-console.log(rutaabsoluta);
+//console.log(rutaabsoluta);
 
 //CONVERTIR EN ABSOLUTA
 const convertirruta = path.resolve("./saludos.txt");
-console.log(convertirruta); 
+//console.log(convertirruta); 
 
 //VERIFICAR SI LA RUTA ES UN DIRECTORIO
-const rutadirectorio = fs.statSync("../adriana-md").isDirectory();
-console.log(rutadirectorio);
+const rutadirectorio = fs.statSync("./test/adriana-md").isDirectory();
+//console.log(rutadirectorio);
 
 //RECORRER DIRECTORIO RECURSIVAMENTE
 const recorredirectorioarchivo =(ruta) => {
   let arregloresult = [];
   const rutadirectorio = fs.statSync(ruta).isDirectory();
-  console.log(rutadirectorio)
+  //console.log(rutadirectorio)
   if(rutadirectorio) {  //en caso de ser directorio se busca un archivo dentro
   const arreglodirectorio = fs.readdirSync(ruta); //lee el contenido de un directorio
   arreglodirectorio.forEach((File) => {
@@ -56,7 +56,7 @@ const leerarchivo = (ruta) => { return new Promise((resolve, reject) => {
 })
 })
 }
-leerarchivo ("../adriana-md/texto.md")
+leerarchivo ("./test/adriana-md/texto.md") 
 .then((res) => { //se cumple promesa y se lee el archivo
   //console.log(res)
 })
@@ -81,29 +81,7 @@ leerarchivo ("../adriana-md/texto.md")
     .catch((error) => reject(error));
 });
 
-//FUNCION PARA VALIDAR LNK CON PETICIONES HTTP
-const validateLinks = (links) => {
-  return Promise.all(links.map((arrayLinks) => { //Promise.all espera que se cumpla todas las promesas//
-    console.log(arrayLinks)
-    return fetch(arrayLinks.href) //fetch  hace una peticion al enlace y nos devuelve el status
-      .then((resolve) => {
-        const objResolve = {
-          ...arrayLinks,
-          status: resolve.status,
-          ok: (resolve.status >= 200) && (resolve.status <= 399) ? "ok" : "fail"
-        }
-        return objResolve; //retorna promesa resuelta
-      })
-      .catch(() => {
-        return {
-          ...arrayLinks,
-          status: "archivo roto",
-          ok: "fail"
-        }
-      })
-  })
-  )
-}  
+
 const estadistica = (urls) => { 
   const unique = new Set (urls.map(element => element.href)).size;
    const totalLinks = `\nTotal: ${urls.length},\nUnique: ${unique}` 
@@ -126,7 +104,7 @@ const array = [
 getLinks("README.md")
 .then((data) =>{
   validateLinks(data).then((res)=>{
-    console.log(brokenLinks(res))
+    console.log(res) //colocar console.log(brokenLinks(res)) para ver links rotos, (res) muestra status y ok//
   })
   })
 
@@ -139,22 +117,22 @@ getLinks("README.md")
     return  [ total , unique, broken]
 }
 
-// se importa a cli
+/* // se importa a cli
 //Muestra los links unicos que existen
 const unique = (objeto) => {
   const unique = new Set(objeto.map(element => element.href)); // array
   const uniqueLinks = `\nUnique: ${unique.size}\n`;
   return uniqueLinks;
 };
-
+ */
 // links rotos
-const broken = (objeto) => { 
+/* const broken = (objeto) => { 
   const broken = objeto.filter((element) => element.status >= 400) // array de objetos, nuevo array
   const brokenLinks =`\nBroken: ${broken.length}\n`;
   return brokenLinks;
-};
+}; */
 
-module.exports = {
+/* module.exports = {
   validateLinks,
   estadistica,
   unique,
@@ -162,3 +140,4 @@ module.exports = {
   status,
   brokenLinks,
 }
+ */ 

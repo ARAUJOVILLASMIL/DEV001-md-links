@@ -1,34 +1,41 @@
-const {mdLinks}  = require("./index.js")
-const ruta = process.argv[2]
-//console.log(ruta)
-const option = { 
-    validate: false,
-    stats: false
-}
-if(process.argv[3] === '--validate'){
-    option.validate =true
-}
-mdLinks(ruta, option)
-.then((data) => {
-    console.log(ruta)
- })
- const estadistica = (links) => {
-    links.then(res =>{
-    const extraerHref = res.map ((elem)=> elem.href);//entro a la promesa y tengo los href  
-    const hrefRepetidos = new set (extraerHref) //elimna links repetidos
-    console.log(extraerHref.length(hrefRepetidos.size))
- })
- }
+#!/usr/bin/env node
 
- const broken = (links) =>{
-    links.then(res => {
-        console.log(res)
-        const brokenLinks = res.filter((e) => e.status >= 400);
-        console.log(brokenLinks.length)
-    })
- } 
+const { mdLinks }  = require("./index.js");
+/* const { Bienvenido } = require ("./entrada.js");
+const { mensaje } = require("./API.js"); */
 
-module.exports = {
-    estadistica,
-    broken
-};
+
+
+  const path = process.argv[2];
+  console.log(path)
+const options = process.argv.slice(3); //option es un arreglo nos trae el texto --validate
+console.log(options)
+
+const option = options.join(' ');
+console.log(option)
+ if (options.length === 0) {
+    mdLinks(path, { validate: false }) 
+    .then(res => console.log(res))
+}   else if (options.length >= 1) {
+  switch (option) {
+    case '--stats --validate':
+      mdLinks(path, { stats: true, validate: true })
+      .then(res => {
+        console.log (`total: ${res.total} \nunique: ${res.unique} \nbroken: ${res.broken} `)
+      }) 
+      break;
+    case '--validate':
+      mdLinks(path, { validate: true }) // md links es una promesa y la consumimos
+      .then(res => console.log(res))
+
+      break;
+    case '--stats': //cuando el usuario de stats espera las stadistica
+     mdLinks(path, { stats: true })
+     .then(res => console.log (`total: ${res.total} \nunique:${res.unique} `)) 
+         
+      break;
+    default:
+      console.log(mensaje('no es válida'));
+  } 
+} 
+ 

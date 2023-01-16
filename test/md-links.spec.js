@@ -11,12 +11,16 @@ const {
 //describe ('mdLinks', () => {
 
 // TEST FUNCION EXISTE RUTA 
+
+const dirrutaabsoluta = 'C:\\Users\\manue\\Desktop\\CARD VALIDETION\\md-links\\DEV001-md-links\\test\\adriana-md';
+const rutaabsfile = dirrutaabsoluta + '\\pruebatest.md';
+
 describe('existe la ruta', () => {
   it('deberia ser una funcion', () => {
     expect(typeof existeruta).toBe('function')
   });
   it('debe ser true si la ruta existe', () =>{ 
-  expect(existeruta('../adriana-md/hola.md')).toBe(true)
+  expect(existeruta(rutaabsfile)).toBe(true)
   })
   it('debe ser false si la ruta no existe', () => {
     expect(existeruta('./adriana-md/prueba123.md')).toBe(false)
@@ -29,8 +33,9 @@ describe('ES ruta absoluta', () => {
     expect(typeof rutaabsoluta ).toBe('function')
     })
   
+
   it('debe ser una ruta absoluta', () => {
-    expect(rutaabsoluta('C:\\Users\\manue\\Desktop\\adriana-md')).toStrictEqual(true);
+    expect(rutaabsoluta(dirrutaabsoluta)).toStrictEqual(true);
   });
   it('debe retornar false si la ruta no es absoluta', () => {
     expect(rutaabsoluta('./adriana-md/hola.md')).toBe(false);
@@ -44,31 +49,39 @@ describe('Debe ser un directorio', () => {
     })
   
   it('Retorna True si la ruta es un directorio', () => {
-    expect(rutadirectorio('C:\\Users\\manue\\Desktop\\adriana-md')).toStrictEqual(true);
+    expect(rutadirectorio(dirrutaabsoluta)).toStrictEqual(true);
   });
   it('Retornar false si la ruta no es un directorio', () => {
-    expect(rutadirectorio('../adriana-md/hola.md')).toBe(false);
+    expect(rutadirectorio(rutaabsfile)).toBe(false);
   });
 });
 
-//TEST PARA LEER UN ARCHIVO
-describe ('leerarchivo', () => {
+//TEST  LEER UN ARCHIVO
+describe ('leerarchivo',() => {
   it('Debe ser una funcion', () => {
     expect(typeof leerarchivo ).toBe('function')
     })
   it('Debería retornar una promesa', () => {
     expect(leerarchivo('./adriana-md/hola.md')).toBeInstanceOf(Promise)
    });
-  
+it('Retornaria una promesa Rechazada si no existe ruta', async () => {
+  await expect(leerarchivo('C:\\Users\\manue\\Desktop\\adriana-mmd\\hola.md')).rejects.toEqual('Error')
 });
+it('Retornaria una promesa Resuelta si la ruta existe ', async() => {
+ await expect(leerarchivo(rutaabsfile)).resolves.toEqual('hola test')
+ });
+});
+
 //TEST LEER DIRECTORIO
 
 describe ('leerdirectorio', () => {
   it('Debe ser una funcion', () => {
     expect(typeof leerdirectorio ).toBe('function')
     })
-    it('Debe retornar true si lee directorio', () => {
-      expect(leerdirectorio ('../adriana-md')).toBe(true);
+    it('Debe retornar un array con los archivos', () => {
+      const array = ["hola.md","pruebamd.js","pruebatest.md","texto.md"]
+      expect(leerdirectorio (dirrutaabsoluta)).toEqual(array);
+
     });
   });
   
@@ -78,10 +91,9 @@ describe('Convertir ruta', () => {
   it('Debe ser una funcion', () => {
     expect(typeof convertirruta ).toBe('function')
     })
-    const Rabsoluta = 'C:\\Users\\manue\\Desktop\\CARD VALIDETION\\md-links\\adriana-md\\hola.md'
-
+   
   it('Retorna true si es una ruta absoluta', () => {
-    expect(convertirruta('../adriana-md/hola.md')).toStrictEqual(Rabsoluta);
+    expect(convertirruta('./test/adriana-md')).toStrictEqual(dirrutaabsoluta );
   });
 });
 
@@ -92,11 +104,11 @@ describe('FiltrarMD', () => {
   
     });
     it('Retorna archivos MD', () => {
-      expect(convertirruta('../adriana-md/hola.md')).toStrictEqual();
+      expect(filtrarmd(rutaabsfile)).toStrictEqual('.md');
     });
   });
-
-  //TEST getLinks
+  
+  //TEST GETLINKS
 describe('GETLINKS', () => {
   it('deberia ser una funcion', () => {
     expect(typeof getLinks).toBe('function')
@@ -106,4 +118,23 @@ describe('GETLINKS', () => {
       expect(getLinks('./adriana-md/hola.md')).toBeInstanceOf(Promise)
     });
   });
-  
+
+
+
+ /*  //MD LINKS TEST
+  describe('md-lnks', () => {
+    it('deberia ser una funcion', () => {
+      expect(typeof mdLinks ).toBe('function')
+    });
+    it('', () =>{ 
+    expect(mdLinks ('./adriana-md/hola.md')).toBe(true)
+    })
+    it('debe retornar un mensaje, advirtiendo que no hay links', ()=>{
+      const resultado = mdLinks('./.md')
+      resultado.then((res)=> expect(res).toStrictEqual('no hay links')).catch((rej)=>rej);
+      });
+    });
+    it('Debería retornar una promesa', () => {
+      expect(mdLinks ('./adriana-md/hola.md')).toBeInstanceOf(Promise)
+     });
+ */

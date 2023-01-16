@@ -1,4 +1,4 @@
-const { link } = require("fs");
+//const { link } = require("fs");
 const path = require("path");
 const {
   convertirruta,
@@ -8,9 +8,11 @@ const {
   leerdirectorio,
   filtrarmd,
   getLinks,
+  validateLinks,
+  estadistica,
+  broken,
 } = require('./API.js')
 
-const {validateLinks} = require ("./md-links.js")
 
 //funcion que nos devulve una ruta 
 const buscarruta = (ruta) => {
@@ -28,11 +30,27 @@ return [ruta]
 
 }
 
-const paths  = process.argv[2];
-console.log(process.argv[3]) //me devuelve un true argv[3])
+const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {  //retorna una promesa que se consume en cli
 
-const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {
-
+  if(option.stats===true && option.validate===true){
+    const ruta = buscarruta (paths)
+    ruta.forEach (e => {
+      getLinks(e)
+      .then((link)=> {
+     validateLinks(link)
+     .then(res => resolve(broken(res)))
+      })
+  
+    }) 
+    return 
+  }
+  if(option.validate===false) { 
+    const ruta = buscarruta (paths)
+    ruta.forEach (e => {
+      resolve(getLinks(e))
+      
+    })
+  }
 if(option.validate===true) { 
   const ruta = buscarruta (paths)
   ruta.forEach (e => {
@@ -42,14 +60,18 @@ if(option.validate===true) {
     })
 
   })
+  return
 }
-const ruta = buscarruta (paths)
-ruta.forEach (e => {
-  getLinks(e)
-  .then((link)=> {
-    resolve(validateLinks(link))  
+if(option.stats === true){
+  const ruta = buscarruta (paths)
+  ruta.forEach (e => {
+    getLinks(e)
+    .then((links)=> { //areglos de objetos con link y esto lo necesita estadistica
+      resolve(estadistica(links))  //lo recibe 
+    })
   })
-})
+  return 
+}
 })
 }
 module.exports = {
