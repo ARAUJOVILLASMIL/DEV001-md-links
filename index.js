@@ -34,9 +34,11 @@ const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {  
 
   if(option.stats===true && option.validate===true){
     const ruta = buscarruta (paths)
+    //console.log(ruta)
     ruta.forEach (e => {
       getLinks(e)
       .then((link)=> {
+        //console.log(link)
      validateLinks(link)
      .then(res => resolve(broken(res)))
       })

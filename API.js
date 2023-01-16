@@ -50,7 +50,23 @@ const getLinks = (route) => { return new Promise((resolve, reject) => {
 }
 
 //FUNCION PARA VALIDAR LNK CON PETICIONES HTTP
-const validateLinks = (links) => {
+const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href)
+  .then((resolve) => {
+    const objResolve = {
+      ...arrayLinks,
+      status: resolve.status,
+      ok: resolve.ok ? 'ok' : 'fail',
+    };
+    return objResolve;
+  })
+  .catch(() => ({
+    ...arrayLinks,
+    status: 'archivo roto',
+    ok: 'fail',
+  }))));
+
+
+/* const validateLinks = (links) => {
   return Promise.all(links.map((arrayLinks) => { //Promise.all espera que se cumpla todas las promesas//
     //console.log(arrayLinks)
     return fetch(arrayLinks.href) //fetch  hace una peticion al enlace y nos devuelve el status
@@ -58,7 +74,9 @@ const validateLinks = (links) => {
         const objResolve = {
           ...arrayLinks,
           status: resolve.status,
-          ok: (resolve.status >= 200) && (resolve.status <= 399) ? "ok" : "fail"
+          ok: (resolve.ok === true) ? 'ok' : 'fail'
+
+          //((resolve.status >= 200) || (resolve.status < 400)) ? "ok" : "fail"
         }
         return objResolve; //retorna promesa resuelta
       })
@@ -71,7 +89,7 @@ const validateLinks = (links) => {
       })
   })
   )
-}  
+} */  
 
 /* const option = { 
   validate: false,
@@ -94,8 +112,11 @@ const estadistica = (links) => {
   }
 }
 const broken = (links) =>{
+  console.log(links.length)
  const brokenLinks = links.filter((e) => e.ok === "fail");
+ console.log(brokenLinks)
    return{
+    
     total:  estadistica(links).total, 
     unique: estadistica (links).unique,
     broken: brokenLinks.length
