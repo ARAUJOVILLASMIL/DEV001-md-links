@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 
 const { mdLinks }  = require("./index.js");
-/* const { Bienvenido } = require ("./entrada.js");
+/* const { Bienvenido } = require ("./bienvenidos.js");
 const { mensaje } = require("./API.js"); */
-
-
 
   const path = process.argv[2];
   console.log(path)
 const options = process.argv.slice(3); //option es un arreglo nos trae el texto --validate
-console.log(options)
+const optionsprueba = {
+  stats : false,
+  validate : false,
+}
 
+console.log(options)
 const option = options.join(' ');
 console.log(option)
  if (options.length === 0) {
@@ -38,4 +40,3 @@ console.log(option)
       console.log(mensaje('no es válida'));
   } 
 } 
- 

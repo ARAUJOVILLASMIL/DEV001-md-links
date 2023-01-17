@@ -22,6 +22,7 @@ const buscarruta = (ruta) => {
     arregloresult.forEach(File => {
       const resolverabsoluta = path.resolve(paths) 
       const rutafile = path.join(`${resolverabsoluta}/${File}`
+      
       )
 })
 return  arregloresult
@@ -40,9 +41,8 @@ const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {  
       .then((link)=> {
         //console.log(link)
      validateLinks(link)
-     .then(res => resolve(broken(res)))
+     .then(res => resolve(broken(res))); //.then(res => resolve(broken(res.flat())));
       })
-  
     }) 
     return 
   }
@@ -58,7 +58,7 @@ if(option.validate===true) {
   ruta.forEach (e => {
     getLinks(e)
     .then((link)=> {
-      resolve(validateLinks(link))  
+      resolve(validateLinks(link.flat()))  
     })
 
   })
@@ -76,6 +76,13 @@ if(option.stats === true){
 }
 })
 }
+
+/* mdLinks("./readmeprueba.md", {
+  validate: true
+})
+.then((res) => {
+  console.log(res)
+}) */
 module.exports = {
 mdLinks 
 };

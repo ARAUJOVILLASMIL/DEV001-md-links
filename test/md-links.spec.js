@@ -7,8 +7,14 @@ const {
   filtrarmd,
   getLinks,
   leerarchivo,
+  validateLinks, 
+  broken,
+  unique,
+  total,
 } = require('../API.js')
-//describe ('mdLinks', () => {
+
+const { mdLinks } = require ('../index.js')
+
 
 // TEST FUNCION EXISTE RUTA 
 
@@ -61,12 +67,12 @@ describe ('leerarchivo',() => {
   it('Debe ser una funcion', () => {
     expect(typeof leerarchivo ).toBe('function')
     })
-  it('Debería retornar una promesa', () => {
-    expect(leerarchivo('./adriana-md/hola.md')).toBeInstanceOf(Promise)
+  it('Debería retornar una promesa',async () => {
+     await expect(leerarchivo('./adriana-md/hola.md')).toBeInstanceOf(Promise)
    });
-it('Retornaria una promesa Rechazada si no existe ruta', async () => {
-  await expect(leerarchivo('C:\\Users\\manue\\Desktop\\adriana-mmd\\hola.md')).rejects.toEqual('Error')
-});
+ it('Retornaria una promesa Rechazada si no existe ruta',  () => {
+   expect(leerarchivo('C:\\Users\\manue\\Desktop\\angy-md\\hola.mmd')).rejects.toEqual('lo siento ocurrio un Error')
+}); 
 it('Retornaria una promesa Resuelta si la ruta existe ', async() => {
  await expect(leerarchivo(rutaabsfile)).resolves.toEqual('hola test')
  });
@@ -121,12 +127,72 @@ describe('GETLINKS', () => {
 
 
 
- /*  //MD LINKS TEST
+  //MD LINKS TEST
   describe('md-lnks', () => {
     it('deberia ser una funcion', () => {
       expect(typeof mdLinks ).toBe('function')
     });
-    it('', () =>{ 
+
+    it('Deberia retornar un error si la ruta no existe', async () => {
+      await expect(mdLinks('./adriana-md/hola.mmd')).rejects.toEqual('La ruta no existe');
+    });
+  });
+
+// VALIDATELINKS TEST
+describe("validatelinks", () => {
+  it("debe retornar una promesa",() => {
+    const arrayobj = [{
+      href: 'https://nodejs.org/',
+    }]
+    expect(validateLinks(arrayobj)).toBeInstanceOf(Promise)
+  });
+  it("debe retornatar un array con obj y status", () => {
+    const arrayobj = [{
+      href: 'https://nodejs.org/',
+    }]
+    return validateLinks(arrayobj).then(result => expect([{"href": "https://nodejs.org/", "ok": "ok", "status": 200}]).toEqual(result))
+    
+  })
+})
+ 
+
+
+// TEST UNIQUE,BROKEN, TOTAL
+describe('Totalidad de links',  () => {
+   it('muestra la cantidad total de links',() => {
+      const links = [
+        "https://www.instagram.com/comesanomcbo/",
+        "https://www.instagram.com/ironparadisefitness2022/",
+        "https://www.instagram.com/laboratoriala/",
+        "https://www.instagram.com/cristiano/"
+        ]
+      expect(totaL(links))
+  })
+} );
+
+describe('Links unicos', () => {
+   it('muestra la cantidad de links unicos',() => {
+      const links = [
+        "https://www.instagram.com/comesanomcbo/",
+        "https://www.instagram.com/ironparadisefitness2022/",
+        "https://www.instagram.com/laboratoriala/",
+        "https://www.instagram.com/cristiano/"
+        ]
+      expect(unique(links))
+  })
+} );
+
+describe('Links rotos', () => {
+  it('muestra la cantidad de links rotos',() => {
+      const links = [
+        "https://www.instagram.com/c/as/",
+        "https://www.instagram.com/c/as",
+        ]
+      expect(broken(links))
+  })
+} );
+
+    /* it('', () =>{ 
     expect(mdLinks ('./adriana-md/hola.md')).toBe(true)
     })
     it('debe retornar un mensaje, advirtiendo que no hay links', ()=>{
@@ -135,6 +201,5 @@ describe('GETLINKS', () => {
       });
     });
     it('Debería retornar una promesa', () => {
-      expect(mdLinks ('./adriana-md/hola.md')).toBeInstanceOf(Promise)
-     });
- */
+      expect(mdLinks ('./adriana-md/hola.md')).toBeInstanceOf(Promise) */
+ 

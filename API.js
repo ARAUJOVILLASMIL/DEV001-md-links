@@ -18,7 +18,7 @@ const leerdirectorio = (ruta) => fs.readdirSync(ruta);
 const leerarchivo = (ruta) => { return new Promise((resolve, reject) => {
     fs.readFile(ruta, "utf-8", function (error, archivo) {
    if(error){
-     reject(error)
+     reject('lo siento ocurrio un Error')
    }
    resolve(archivo)
  })
