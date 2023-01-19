@@ -4,7 +4,7 @@
 
 * [1. Preámbulo](#1-preámbulo)
 * [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
+* [3. Comandos](#3-Comandos)
 * [4. Consideraciones generales](#4-consideraciones-generales)
 * [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
 * [6. Entregables](#6-entregables)
@@ -28,35 +28,39 @@ Estos archivos `Markdown` normalmente contienen _links_ (vínculos/ligas) que
 muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de
 la información que se quiere compartir.
 
-Dentro de una comunidad de código abierto, nos han propuesto crear una
-herramienta usando [Node.js](https://nodejs.org/), que lea y analice archivos
-en formato `Markdown`, para verificar los links que contengan y reportar
-algunas estadísticas.
-
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+Esta herramienta  creada con Node.js lee y analiza archivos con formato MD, para verificar los link que nos arrojen estadisticas.
+![MD](https://user-images.githubusercontent.com/113929552/213540520-51c8eb3b-a035-4af5-bc68-d723fcc31dbd.png)
 
 ## 2. Resumen del proyecto
 
-En este proyecto crearás una herramienta de línea de comando (CLI) así como tu
-propia librería (o biblioteca - library) en JavaScript.
+En este proyecto se nos propuso alejarnos del navegar y encontrar nuevos desafios creando una herramienta de linea de comandos, elaborando asi un diagrama de flujo para organizar el proceso.
+API Y CLI.
+![API1](https://user-images.githubusercontent.com/113929552/213542498-20eea91b-7d8f-4f60-a46c-42d0d6d27ed1.png)
+![CLI2png](https://user-images.githubusercontent.com/113929552/213542590-73c1d815-28a1-4436-9872-9aa72e3159ab.png)
 
-En esta oportunidad nos alejamos un poco del navegador para construir un
-programa que se ejecute usando Node.js. Aprenderemos sobre procesos
-(`process.env`, `process.argv`, ...), cómo interactuar con el sistema archivos,
-cómo hacer consultas de red, etc.
 
-[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript
-construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
-Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo,
-ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder
-interactuar con el sistema en sí, archivos, redes, ...
 
-Diseñar tu propia librería es una experiencia fundamental para cualquier
-desarrollador porque que te obliga a pensar en la interfaz (API) de tus
-_módulos_ y cómo será usado por otros developers. Debes tener especial
-consideración en peculiaridades del lenguaje, convenciones y buenas prácticas.
+## 3. Comandos
+Para utilizarlo, debes ejecutar el comando md-links <nombre de la ruta>
+Ejemplo 1 md-links <nombre de la ruta>:
 
-## 3. Objetivos de aprendizaje
+![MD-LINKS  README MD](https://user-images.githubusercontent.com/113929552/213544000-b8eccd39-5597-460a-b921-6a0c968ec71d.png)
+
+Ejemplo 2 md-links <nombre de la ruta> --validate:
+
+![--VALIDATE](https://user-images.githubusercontent.com/113929552/213544330-f3ad4342-1ae5-4917-a1dc-39262d0da760.png)
+
+Ejemplo 3 md-links <nombre de la ruta> --stats:
+
+![stats](https://user-images.githubusercontent.com/113929552/213545176-2694322a-2cad-47d2-8a94-eaf7aba14115.png)
+
+Ejemplo 4 md-links <nombre de la ruta> --stats --validate:
+
+![--stats--validate](https://user-images.githubusercontent.com/113929552/213545272-4523c025-e240-435d-a18a-402c2c01bebd.png)
+
+
+
+
 
 Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en tu proyecto. Piensa en eso al decidir tu estrategia de trabajo.
 
