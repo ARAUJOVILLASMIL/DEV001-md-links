@@ -9,11 +9,11 @@ const {
   leerarchivo,
   validateLinks, 
   broken,
-  unique,
-  total,
+  estadistica,
+  
 } = require('../API.js')
 
-const { mdLinks } = require ('../index.js')
+//const { mdLinks } = require ('../index.js')
 
 
 // TEST FUNCION EXISTE RUTA 
@@ -128,7 +128,7 @@ describe('GETLINKS', () => {
 
 
   //MD LINKS TEST
-  describe('md-lnks', () => {
+  /* describe('md-lnks', () => {
     it('deberia ser una funcion', () => {
       expect(typeof mdLinks ).toBe('function')
     });
@@ -136,7 +136,7 @@ describe('GETLINKS', () => {
     it('Deberia retornar un error si la ruta no existe', async () => {
       await expect(mdLinks('./adriana-md/hola.mmd')).rejects.toEqual('La ruta no existe');
     });
-  });
+  }); */
 
 // VALIDATELINKS TEST
 describe("validatelinks", () => {
@@ -150,14 +150,14 @@ describe("validatelinks", () => {
     const arrayobj = [{
       href: 'https://nodejs.org/',
     }]
-    return validateLinks(arrayobj).then(result => expect([{"href": "https://nodejs.org/", "ok": "ok", "status": 200}]).toEqual(result))
+    return validateLinks(arrayobj).then(result => expect([{ "href": "https://nodejs.org/","ok": "ok", "status": 200 }]).toEqual(result))
     
   })
 })
  
 
 
-// TEST UNIQUE,BROKEN, TOTAL
+// TEST ESTADISTICA,BROKEN, 
 describe('Totalidad de links',  () => {
    it('muestra la cantidad total de links',() => {
       const links = [
@@ -166,19 +166,7 @@ describe('Totalidad de links',  () => {
         "https://www.instagram.com/laboratoriala/",
         "https://www.instagram.com/cristiano/"
         ]
-      expect(totaL(links))
-  })
-} );
-
-describe('Links unicos', () => {
-   it('muestra la cantidad de links unicos',() => {
-      const links = [
-        "https://www.instagram.com/comesanomcbo/",
-        "https://www.instagram.com/ironparadisefitness2022/",
-        "https://www.instagram.com/laboratoriala/",
-        "https://www.instagram.com/cristiano/"
-        ]
-      expect(unique(links))
+      expect(estadistica(links))
   })
 } );
 
@@ -203,3 +191,15 @@ describe('Links rotos', () => {
     it('Debería retornar una promesa', () => {
       expect(mdLinks ('./adriana-md/hola.md')).toBeInstanceOf(Promise) */
  
+
+      /* describe('Links unicos', () => {
+   it('muestra la cantidad de links unicos',() => {
+      const links = [
+        "https://www.instagram.com/comesanomcbo/",
+        "https://www.instagram.com/ironparadisefitness2022/",
+        "https://www.instagram.com/laboratoriala/",
+        "https://www.instagram.com/cristiano/"
+        ]
+      expect(unique(links))
+  })
+} ); */

@@ -1,9 +1,5 @@
 const fs = require ("fs");
 const path = require("path");
-//const {mdLinks}  = require("./index.js")
-//const ruta = process.argv[2]
-
-//const mensaje = (text, color) => chalk.keyword(color)(text);
 
 const existeruta =(ruta) => fs.existsSync(ruta);
 
@@ -26,7 +22,6 @@ const leerarchivo = (ruta) => { return new Promise((resolve, reject) => {
  }
 
 const filtrarmd = (ruta) => path.extname(ruta)
-
 const getLinks = (route) => { return new Promise((resolve, reject) => {
     const links = [];
     leerarchivo(route)
@@ -46,9 +41,7 @@ const getLinks = (route) => { return new Promise((resolve, reject) => {
       .catch((error) => reject(error));
     
   });
-
 }
-
 //FUNCION PARA VALIDAR LNK CON PETICIONES HTTP
 const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href)
   .then((resolve) => {
@@ -65,43 +58,6 @@ const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(array
     ok: 'fail',
   }))));
 
-
-/* const validateLinks = (links) => {
-  return Promise.all(links.map((arrayLinks) => { //Promise.all espera que se cumpla todas las promesas//
-    //console.log(arrayLinks)
-    return fetch(arrayLinks.href) //fetch  hace una peticion al enlace y nos devuelve el status
-      .then((resolve) => {
-        const objResolve = {
-          ...arrayLinks,
-          status: resolve.status,
-          ok: (resolve.ok === true) ? 'ok' : 'fail'
-
-          //((resolve.status >= 200) || (resolve.status < 400)) ? "ok" : "fail"
-        }
-        return objResolve; //retorna promesa resuelta
-      })
-      .catch(() => {
-        return {
-          ...arrayLinks,
-          status: "archivo roto",
-          ok: "fail"
-        }
-      })
-  })
-  )
-} */  
-
-/* const option = { 
-  validate: false,
-  stats: false
-}
-if(process.argv[3] === '--validate'){
-  option.validate =true
-}
-mdLinks(ruta, option)
-.then((data) => {
-  console.log(ruta)
-}) */
 const estadistica = (links) => {
   const extraerHref = links.map ((elem)=> elem.href);//entro a la promesa y tengo los href  
   const hrefRepetidos = new Set (extraerHref) //elimina links repetidos

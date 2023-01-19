@@ -1,9 +1,6 @@
 //const { link } = require("fs");
 const path = require("path");
 const {
-  convertirruta,
-  rutaabsoluta,
-  existeruta, 
   rutadirectorio,
   leerdirectorio,
   filtrarmd,
@@ -22,7 +19,7 @@ const buscarruta = (ruta) => {
     arregloresult.forEach(File => {
       const resolverabsoluta = path.resolve(paths) 
       const rutafile = path.join(`${resolverabsoluta}/${File}`
-      
+
       )
 })
 return  arregloresult
@@ -31,7 +28,7 @@ return [ruta]
 
 }
 
-const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {  //retorna una promesa que se consume en cli
+const mdLinks = (paths, option) =>  {return new Promise((resolve) => {  //retorna una promesa que se consume en cli
 
   if(option.stats===true && option.validate===true){
     const ruta = buscarruta (paths)
@@ -50,7 +47,6 @@ const mdLinks = (paths, option) =>  {return new Promise((resolve, reject) => {  
     const ruta = buscarruta (paths)
     ruta.forEach (e => {
       resolve(getLinks(e))
-      
     })
   }
 if(option.validate===true) { 
@@ -76,13 +72,6 @@ if(option.stats === true){
 }
 })
 }
-
-/* mdLinks("./readmeprueba.md", {
-  validate: true
-})
-.then((res) => {
-  console.log(res)
-}) */
 module.exports = {
 mdLinks 
 };

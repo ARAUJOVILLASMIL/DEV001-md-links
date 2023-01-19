@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 const { mdLinks }  = require("./index.js");
-/* const { Bienvenido } = require ("./bienvenidos.js");
-const { mensaje } = require("./API.js"); */
 
+const { mensaje } = require("./API.js");
   const path = process.argv[2];
   console.log(path)
 const options = process.argv.slice(3); //option es un arreglo nos trae el texto --validate
