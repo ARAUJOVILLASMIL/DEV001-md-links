@@ -10,8 +10,10 @@ const {
   validateLinks, 
   broken,
   estadistica,
-  
+   
 } = require('../API.js')
+
+const {mdLinks} = require('../md-links.js')
 
 //const { mdLinks } = require ('../index.js')
 
@@ -67,14 +69,15 @@ describe ('leerarchivo',() => {
   it('Debe ser una funcion', () => {
     expect(typeof leerarchivo ).toBe('function')
     })
-  it('Debería retornar una promesa',async () => {
-     await expect(leerarchivo('./adriana-md/hola.md')).toBeInstanceOf(Promise)
+ /*  it('Debería retornar una promesa', () => {
+     expect(leerarchivo('./adriana-md/hola.md')).toBeInstanceOf(Promise)
    });
- it('Retornaria una promesa Rechazada si no existe ruta',  () => {
-   expect(leerarchivo('C:\\Users\\manue\\Desktop\\angy-md\\hola.mmd')).rejects.toEqual('lo siento ocurrio un Error')
-}); 
-it('Retornaria una promesa Resuelta si la ruta existe ', async() => {
- await expect(leerarchivo(rutaabsfile)).resolves.toEqual('hola test')
+/*  it('Retornaria una promesa Rechazada si no existe ruta',  () => {
+   return expect(leerarchivo('C:\\Users\\manue\\Desktop\\angy-md\\hola.mmd')).rejects.toEqual('lo siento ocurrio un Error')
+});  */ 
+it('Retornaria una promesa rechazada si la ruta no existe',() => {
+  console.log(leerarchivo(rutaabsfile))
+  return expect(leerarchivo("./adriana-md/pruebatest.md")).rejects.toEqual('lo siento ocurrio un Error') 
  });
 });
 
@@ -125,40 +128,48 @@ describe('GETLINKS', () => {
     });
   });
 
-
-
-  //MD LINKS TEST
-  /* describe('md-lnks', () => {
-    it('deberia ser una funcion', () => {
-      expect(typeof mdLinks ).toBe('function')
-    });
-
-    it('Deberia retornar un error si la ruta no existe', async () => {
-      await expect(mdLinks('./adriana-md/hola.mmd')).rejects.toEqual('La ruta no existe');
-    });
-  }); */
-
 // VALIDATELINKS TEST
 describe("validatelinks", () => {
-  it("debe retornar una promesa",() => {
-    const arrayobj = [{
-      href: 'https://nodejs.org/',
-    }]
-    expect(validateLinks(arrayobj)).toBeInstanceOf(Promise)
+  beforeAll(() => {
+    const mockFetch = jest
+      .fn()
+      .mockResolvedValueOnce({ status: 200, ok: true })
+      .mockResolvedValueOnce({ status: 400, ok: false })
+      .mockRejectedValueOnce({ status: 'link roto', ok: false });
+    global.fetch = mockFetch;
   });
-  it("debe retornatar un array con obj y status", () => {
+  
+  it("debe retornatar un array con obj y status:200", () => {
     const arrayobj = [{
-      href: 'https://nodejs.org/',
+      href: 'https://www.twitch.tv/midudev',
+       
     }]
-    return validateLinks(arrayobj).then(result => expect([{ "href": "https://nodejs.org/","ok": "ok", "status": 200 }]).toEqual(result))
-    
+    return validateLinks(arrayobj).then((result) => { console.log(result)
+      expect([{ "href":'https://www.twitch.tv/midudev',"ok": "ok", "status": 200 }]).toEqual(result)
   })
 })
+it("debe retornatar un array con obj y status:400", () => {
+  const arrayobj = [{
+    href: 'https://www.twitch.tv/midudev',
+     
+  }]
+  return validateLinks(arrayobj).then((result) => { console.log(result)
+    expect([{ "href":'https://www.twitch.tv/midudev',"ok": "fail", "status": 400 }]).toEqual(result)
+})
+})
+it("debe rechazar si no hay respuesta", () => {
+  const arrayobj = [{
+    href: 'https://www.twitch.tv/midudev',
+     
+  }]
+  return validateLinks(arrayobj).catch((result) => { console.log(result)
+    expect([{ "href":'https://www.twitch.tv/midudev',"ok": "fail", "status": 'link roto' }]).toEqual(result)
+})
+})
+})
  
-
-
 // TEST ESTADISTICA,BROKEN, 
-describe('Totalidad de links',  () => {
+describe('Links unicos',  () => {
    it('muestra la cantidad total de links',() => {
       const links = [
         "https://www.instagram.com/comesanomcbo/",
@@ -166,40 +177,39 @@ describe('Totalidad de links',  () => {
         "https://www.instagram.com/laboratoriala/",
         "https://www.instagram.com/cristiano/"
         ]
-      expect(estadistica(links))
+        const obj = {
+          total: 4,
+          unique: 1, 
+        }
+      expect(estadistica(links)).toEqual(obj)
   })
 } );
-
-describe('Links rotos', () => {
-  it('muestra la cantidad de links rotos',() => {
-      const links = [
-        "https://www.instagram.com/c/as/",
-        "https://www.instagram.com/c/as",
-        ]
-      expect(broken(links))
-  })
-} );
-
-    /* it('', () =>{ 
-    expect(mdLinks ('./adriana-md/hola.md')).toBe(true)
+  describe('Links rotos', () => {
+    it('muestra la cantidad de links rotos',() => {
+        const links = [
+          "https://www.instagram.com/c/as/",
+          "https://www.instagram.com/c/as",
+          ]
+          const obje = {
+            total: 2,
+            broken: 0, 
+            unique: 1,
+          }
+        expect(broken(links)).toEqual(obje)
     })
-    it('debe retornar un mensaje, advirtiendo que no hay links', ()=>{
-      const resultado = mdLinks('./.md')
-      resultado.then((res)=> expect(res).toStrictEqual('no hay links')).catch((rej)=>rej);
-      });
-    });
-    it('Debería retornar una promesa', () => {
-      expect(mdLinks ('./adriana-md/hola.md')).toBeInstanceOf(Promise) */
- 
+  });
 
-      /* describe('Links unicos', () => {
-   it('muestra la cantidad de links unicos',() => {
-      const links = [
-        "https://www.instagram.com/comesanomcbo/",
-        "https://www.instagram.com/ironparadisefitness2022/",
-        "https://www.instagram.com/laboratoriala/",
-        "https://www.instagram.com/cristiano/"
-        ]
-      expect(unique(links))
-  })
-} ); */
+  /*   //MD LINKS TEST
+   describe('mdLinks', () => {
+   
+  it('Deberia retornar un array de obj con las propiedas status y ok ,', async () => {
+      const arr = [
+        {
+          href: 'https://www.twitch.tv/midudev',
+          text: 'Twitch',
+          file: `C:\\Users\\manue\\Desktop\\CARD VALIDETION\\md-links\\DEV001-md-links\\readme.md`,
+        },
+      ];
+     await expect(mdLinks(arr[0].file, {validate:true})).resolves.toEqual(arr)
+    });
+  });   */

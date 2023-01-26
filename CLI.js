@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { mdLinks }  = require("./index.js");
+const { mdLinks }  = require("./md-links.js");
 
 const { mensaje } = require("./API.js");
   const path = process.argv[2];
@@ -23,8 +23,15 @@ console.log(option)
       mdLinks(path, { stats: true, validate: true })
       .then(res => {
         console.log (`total: ${res.total} \nunique: ${res.unique} \nbroken: ${res.broken} `)
-      }) 
-      break;
+      })
+       break;
+       case '--validate --stats': //verificar aquii///
+      mdLinks(path, { validate: true,stats: true })
+      .then(res => {
+        console.log (`total: ${res.total} \nunique: ${res.unique} \nbroken: ${res.broken} `); //aqui
+      })
+       
+      break; 
     case '--validate':
       mdLinks(path, { validate: true }) // md links es una promesa y la consumimos
       .then(res => console.log(res))
@@ -32,10 +39,10 @@ console.log(option)
       break;
     case '--stats': //cuando el usuario de stats espera las stadistica
      mdLinks(path, { stats: true })
-     .then(res => console.log (`total: ${res.total} \nunique:${res.unique} `)) 
+     .then(res => console.log (`total: ${res.total} \nunique:${res.unique} `))
          
       break;
     default:
-      console.log(mensaje('no es válida'));
-  } 
-} 
+      console.log(mensaje('no es válida'))
+  }
+}

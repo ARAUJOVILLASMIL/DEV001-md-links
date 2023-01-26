@@ -43,7 +43,7 @@ const getLinks = (route) => { return new Promise((resolve, reject) => {
   });
 }
 //FUNCION PARA VALIDAR LNK CON PETICIONES HTTP
-const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href)
+const validateLinks = (urls) => Promise.all(urls.map((arrayLinks) => fetch(arrayLinks.href) //Promise.all devuelve un array de promesa resuelta y se corta al primer reajet
   .then((resolve) => {
     const objResolve = {
       ...arrayLinks,
